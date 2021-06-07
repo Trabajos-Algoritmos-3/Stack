@@ -10,7 +10,8 @@ Ayudas:
 
 Primero hagan pasar todos los tests usando if y después aplique la técnica para sacar if que vimos.
 Si les sirve, utilicen una metáfora. Una muy útil es la de representar el juego de los bebés donde se apilan platos en una especie de torre de Hanoi. Importante: Tampoco se puede usar handleo de excepciones para ocultar lo que sería en definitiva un if.
-Segunda parte
+
+## Segunda parte
 
 El stack de la primera parte es utilizado para almacenar oraciones de cualquier longitud. Se debe implementar el mensaje find de SentenceFinderByPrefix que dado un prefijo se encarga de devolver todas las oraciones almacenadas en el Stack que contengan dicho prefijo. Por ej. si el prefijo es "Wint", y las oraciones en el Stack son "winter is coming", "winning is everything", "The winds of Winter" y "Winter is here" sólo debería devolver la última.
 
