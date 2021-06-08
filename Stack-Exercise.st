@@ -151,16 +151,8 @@ Object subclass: #NullStackElement
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!NullStackElement methodsFor: 'as yet unclassified' stamp: 'fj 6/6/2021 18:31:13'!
-isEmpty
-	^true.! !
-
-!NullStackElement methodsFor: 'as yet unclassified' stamp: 'fj 6/6/2021 18:30:34'!
-pop
-	^self error: OOStack stackEmptyErrorDescription.! !
-
-!NullStackElement methodsFor: 'as yet unclassified' stamp: 'fj 6/6/2021 18:30:54'!
-top
+!NullStackElement methodsFor: 'as yet unclassified' stamp: 'fran 6/7/2021 19:50:49'!
+value
 	^self error: OOStack stackEmptyErrorDescription.! !
 
 
@@ -171,25 +163,16 @@ Object subclass: #OOStack
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'fj 6/6/2021 18:49:08'!
-increaseSize.
-	size := size +1.
-	! !
-
-!OOStack methodsFor: 'as yet unclassified' stamp: 'fj 6/6/2021 18:32:33'!
-isEmpty
-	^elementOnTop isEmpty .! !
-
-!OOStack methodsFor: 'as yet unclassified' stamp: 'fj 6/6/2021 18:49:34'!
+!OOStack methodsFor: 'stack management' stamp: 'fran 6/7/2021 19:51:51'!
 pop
-	| topElement nextTopElement |
-	topElement := elementOnTop pop.
+	| topElementValue nextTopElement |
+	topElementValue := elementOnTop value.
 	nextTopElement := elementOnTop next.
 	elementOnTop := nextTopElement.
 	self reduceSize .
-	^topElement .! !
+	^topElementValue .! !
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'fj 6/6/2021 18:49:41'!
+!OOStack methodsFor: 'stack management' stamp: 'fj 6/6/2021 18:49:41'!
 push: anElement
 	|newTopElement|
 	newTopElement := StackElement with: anElement followedBy: elementOnTop.
@@ -197,23 +180,34 @@ push: anElement
 	self increaseSize .
 	! !
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'fj 6/6/2021 18:49:23'!
-reduceSize
-	size := size -1.! !
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'fj 6/6/2021 18:42:00'!
+!OOStack methodsFor: 'accessing' stamp: 'fran 6/7/2021 19:46:39'!
+isEmpty
+	^size = 0.! !
+
+!OOStack methodsFor: 'accessing' stamp: 'fj 6/6/2021 18:42:00'!
 size
 	^size.! !
 
-!OOStack methodsFor: 'as yet unclassified' stamp: 'fj 6/6/2021 18:33:12'!
+!OOStack methodsFor: 'accessing' stamp: 'fran 6/7/2021 19:51:20'!
 top
-	^elementOnTop top.! !
+	^elementOnTop value.! !
 
 
 !OOStack methodsFor: 'initialization' stamp: 'fj 6/6/2021 18:40:57'!
 initialize
 	elementOnTop := NullStackElement new.
 	size := 0.! !
+
+
+!OOStack methodsFor: 'private' stamp: 'fj 6/6/2021 18:49:08'!
+increaseSize.
+	size := size +1.
+	! !
+
+!OOStack methodsFor: 'private' stamp: 'fj 6/6/2021 18:49:23'!
+reduceSize
+	size := size -1.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -234,6 +228,10 @@ Object subclass: #SentenceFinderByPrefix
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
+!SentenceFinderByPrefix methodsFor: 'as yet unclassified' stamp: 'fran 6/7/2021 20:12:34'!
+find: prefix
+	^nil.! !
+
 
 !classDefinition: #StackElement category: 'Stack-Exercise'!
 Object subclass: #StackElement
@@ -247,20 +245,12 @@ initializeWith: anElement followedBy: elementOnTop
 	value := anElement.
 	nextStackElement := elementOnTop.! !
 
-!StackElement methodsFor: 'as yet unclassified' stamp: 'fj 6/6/2021 18:31:47'!
-isEmpty
-	^false.! !
-
 !StackElement methodsFor: 'as yet unclassified' stamp: 'fj 6/6/2021 18:40:35'!
 next
 	^nextStackElement .! !
 
-!StackElement methodsFor: 'as yet unclassified' stamp: 'fj 6/6/2021 18:32:06'!
-pop
-	^value.! !
-
-!StackElement methodsFor: 'as yet unclassified' stamp: 'fj 6/6/2021 18:32:15'!
-top
+!StackElement methodsFor: 'as yet unclassified' stamp: 'fran 6/7/2021 19:49:07'!
+value
 	^value.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
