@@ -138,52 +138,52 @@ test10CanNotTopWhenThereAreNoObjectsInTheStack
 
 !classDefinition: #SentenceFinderByPrefixTest category: 'Stack-Exercise'!
 TestCase subclass: #SentenceFinderByPrefixTest
-	instanceVariableNames: ''
+	instanceVariableNames: 'testStack collectionOfStackElements winterIsComing winningIsEverything winterSoldier theWindsOfWinter'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'fran 6/8/2021 22:53:22'!
-test01UpperCasePrefixInStack
-	|stack sentenceFinder prefix arrayOfSentences|
-	stack := OOStack new.
-	prefix := 'Wint'. 
-	stack push: 'winter is coming'.
-	stack push: 'winning is everything'.
-	stack push: 'Winter Soldier'.  
-	stack push: 'The winds of Winter'.
-	sentenceFinder := SentenceFinderByPrefix with: stack.
-	arrayOfSentences := sentenceFinder find: prefix.
-	self assert: arrayOfSentences size equals: 1! !
+!SentenceFinderByPrefixTest methodsFor: 'setUp' stamp: 'fran 6/9/2021 22:35:14'!
+setUp
+	testStack := OOStack new.
+	collectionOfStackElements := #('The winds of Winter' 'Winter Soldier' 'winning is everything' 'winter is coming').
+	winterIsComing := 'winter is coming'.
+	winningIsEverything := 'winning is everything'.
+	winterSoldier := 'Winter Soldier'. 
+	theWindsOfWinter := 'The winds of Winter'.
+	testStack push: winterIsComing.
+	testStack push: winningIsEverything.
+	testStack push: winterSoldier.
+	testStack push: theWindsOfWinter.! !
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'fran 6/8/2021 22:47:01'!
-test02NoPrefixInStack
-	|stack sentenceFinder prefix arrayOfSentences|
-	stack := OOStack new.
+
+!SentenceFinderByPrefixTest methodsFor: 'test' stamp: 'fran 6/9/2021 22:28:28'!
+test01UpperCasePrefixInStack
+	|sentenceFinder prefix arrayOfSentences|
 	prefix := 'Wint'. 
-	stack push: 'winter is coming'.
-	stack push: 'winning is everything'.
-	stack push: 'winter Soldier'.  
-	stack push: 'The winds of Winter'.
-	sentenceFinder := SentenceFinderByPrefix with: stack.
+	sentenceFinder := SentenceFinderByPrefix with: testStack .
+	arrayOfSentences := sentenceFinder find: prefix.
+	self assert: arrayOfSentences size equals: 1.
+	self assert: (arrayOfSentences includes: winterSoldier) equals: true.! !
+
+!SentenceFinderByPrefixTest methodsFor: 'test' stamp: 'fran 6/9/2021 22:29:42'!
+test02NoPrefixInStack
+	|sentenceFinder prefix arrayOfSentences|
+	prefix := 'uint'. 
+	sentenceFinder := SentenceFinderByPrefix with: testStack.
 	arrayOfSentences := sentenceFinder find: prefix.
 	self assert: arrayOfSentences size equals: 0! !
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'fran 6/8/2021 23:11:00'!
+!SentenceFinderByPrefixTest methodsFor: 'test' stamp: 'fran 6/9/2021 22:30:18'!
 test03StackDoesNotChangeSize
-	|stack stackSize sentenceFinder prefix arrayOfSentences|
-	stack := OOStack new.
-	prefix := 'Wint'. 
-	stack push: 'winter is coming'.
-	stack push: 'winning is everything'.
-	stack push: 'Winter Soldier'.  
-	stack push: 'The winds of Winter'.
-	stackSize := stack size.
-	sentenceFinder := SentenceFinderByPrefix with: stack.
+	|stackSize sentenceFinder prefix arrayOfSentences|
+	prefix := 'Wint'.
+	stackSize := testStack size.
+	sentenceFinder := SentenceFinderByPrefix with: testStack .
 	arrayOfSentences := sentenceFinder find: prefix.
-	self assert: stack size equals: stackSize.! !
+	self assert: testStack size equals: stackSize.! !
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'fran 6/8/2021 22:51:53'!
+!SentenceFinderByPrefixTest methodsFor: 'test' stamp: 'fran 6/9/2021 22:30:44'!
 test04StackWithNoElementsReturnsEmptyArray
 	|stack sentenceFinder prefix arrayOfSentences|
 	stack := OOStack new.
@@ -192,29 +192,20 @@ test04StackWithNoElementsReturnsEmptyArray
 	arrayOfSentences := sentenceFinder find: prefix.
 	self assert: arrayOfSentences size equals: 0.! !
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'fran 6/8/2021 22:53:10'!
+!SentenceFinderByPrefixTest methodsFor: 'test' stamp: 'fran 6/9/2021 22:31:17'!
 test05LowerCasePrefixInStack
-	|stack sentenceFinder prefix arrayOfSentences|
-	stack := OOStack new.
-	prefix := 'wint'. 
-	stack push: 'winter is coming'.
-	stack push: 'winning is everything'.
-	stack push: 'Winter Soldier'.  
-	stack push: 'The winds of Winter'.
-	sentenceFinder := SentenceFinderByPrefix with: stack.
+	|sentenceFinder prefix arrayOfSentences|
+	prefix := 'wint'.
+	sentenceFinder := SentenceFinderByPrefix with: testStack .
 	arrayOfSentences := sentenceFinder find: prefix.
-	self assert: arrayOfSentences size equals: 1! !
+	self assert: arrayOfSentences size equals: 1.
+	self assert: (arrayOfSentences includes: winterIsComing) equals: true.! !
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'fran 6/8/2021 23:04:17'!
+!SentenceFinderByPrefixTest methodsFor: 'test' stamp: 'fran 6/9/2021 22:31:39'!
 test06EmptyPrefixMustFail
-	|stack sentenceFinder prefix |
-	stack := OOStack new.
+	|sentenceFinder prefix |
 	prefix := ''. 
-	stack push: 'winter is coming'.
-	stack push: 'winning is everything'.
-	stack push: 'Winter Soldier'.  
-	stack push: 'The winds of Winter'.
-	sentenceFinder := SentenceFinderByPrefix with: stack.
+	sentenceFinder := SentenceFinderByPrefix with: testStack.
 	self
 		should: [ sentenceFinder find: prefix. ]
 		raise: Error - MessageNotUnderstood 
@@ -222,38 +213,51 @@ test06EmptyPrefixMustFail
 			self assert: anError messageText = SentenceFinderByPrefix emptyPrefixIsNotValid ].
 	! !
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'fran 6/8/2021 23:08:44'!
+!SentenceFinderByPrefixTest methodsFor: 'test' stamp: 'fran 6/9/2021 22:31:58'!
 test07BlanckSpaceInPrefixMustFail
-	|stack sentenceFinder prefix |
-	stack := OOStack new.
-	prefix := 'Wint '. 
-	stack push: 'winter is coming'.
-	stack push: 'winning is everything'.
-	stack push: 'Winter Soldier'.  
-	stack push: 'The winds of Winter'.
-	sentenceFinder := SentenceFinderByPrefix with: stack.
+	|sentenceFinder prefix |
+	prefix := 'Wint '.
+	sentenceFinder := SentenceFinderByPrefix with: testStack.
 	self
 		should: [ sentenceFinder find: prefix. ]
 		raise: Error - MessageNotUnderstood 
 		withExceptionDo: [ :anError |
 			self assert: anError messageText = SentenceFinderByPrefix prefixWithBlanckSpaceIsNotValid ].! !
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'fran 6/8/2021 23:18:12'!
+!SentenceFinderByPrefixTest methodsFor: 'test' stamp: 'fran 6/9/2021 22:35:28'!
 test08StackDoesNotChangeOrder
-	|stack sentenceFinder prefix arrayOfSentences collectionOfElements elementValue|
-	stack := OOStack new.
-	collectionOfElements := #('The winds of Winter' 'Winter Soldier' 'winning is everything' 'winter is coming').
+	|sentenceFinder prefix arrayOfSentences elementValue|
 	prefix := 'Wint'. 
-	stack push: 'winter is coming'.
-	stack push: 'winning is everything'.
-	stack push: 'Winter Soldier'.  
-	stack push: 'The winds of Winter'.
+	sentenceFinder := SentenceFinderByPrefix with: testStack.
+	arrayOfSentences := sentenceFinder find: prefix.
+	1 to: testStack size do: [:x | 
+		elementValue := testStack pop.
+		self assert: elementValue equals: (collectionOfStackElements at: x).
+		].! !
+
+!SentenceFinderByPrefixTest methodsFor: 'test' stamp: 'fran 6/9/2021 21:42:15'!
+test09SentenceMustBeInitializedWithStack
+	|arrayOfElements |
+	arrayOfElements := Array new.
+	self
+		should: [ SentenceFinderByPrefix with: arrayOfElements ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = SentenceFinderByPrefix sentenceFinderByPrefixMustBeInitializedWithAStack ].! !
+
+!SentenceFinderByPrefixTest methodsFor: 'test' stamp: 'fran 6/9/2021 22:19:57'!
+test10PrefixCanBeANumber
+	|stack sentenceFinder prefix arrayOfSentences|
+	stack := OOStack new.
+	prefix := '1'. 
+	stack push: '1 first'.
+	stack push: '2 second'.
+	stack push: '3 third'.
+	stack push: '4 fourth'.
 	sentenceFinder := SentenceFinderByPrefix with: stack.
 	arrayOfSentences := sentenceFinder find: prefix.
-	1 to: stack size do: [:x | 
-		elementValue := stack pop.
-		self assert: elementValue equals: (collectionOfElements at: x).
-		].! !
+	self assert: arrayOfSentences size equals: 1.
+	self assert: (arrayOfSentences includes: '1 first') equals: true.! !
 
 
 !classDefinition: #NullStackElement category: 'Stack-Exercise'!
@@ -340,27 +344,39 @@ Object subclass: #SentenceFinderByPrefix
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!SentenceFinderByPrefix methodsFor: 'as yet unclassified' stamp: 'fran 6/8/2021 21:45:49'!
+!SentenceFinderByPrefix methodsFor: 'error management' stamp: 'fran 6/9/2021 21:47:09'!
+checkPrefixNotValid: prefix
+	(prefix = '') ifTrue: [^self error: SentenceFinderByPrefix emptyPrefixIsNotValid].
+	(prefix includesSubString: ' ') ifTrue: [^self error: SentenceFinderByPrefix prefixWithBlanckSpaceIsNotValid].! !
+
+
+!SentenceFinderByPrefix methodsFor: 'private' stamp: 'fran 6/9/2021 22:06:53'!
+moveElementsFrom: aStack to: otherStack
+	| elementsOfTheStack elementValue |
+	elementsOfTheStack := OrderedCollection new.
+	1 to: aStack size do: [:x | 
+		elementValue := aStack pop.
+		elementsOfTheStack add: elementValue. 
+		otherStack push: elementValue.
+		].
+	^elementsOfTheStack.! !
+
+
+!SentenceFinderByPrefix methodsFor: 'initialization' stamp: 'fran 6/8/2021 21:45:49'!
 InitializeWith: aStack
 	stack := aStack.! !
 
-!SentenceFinderByPrefix methodsFor: 'as yet unclassified' stamp: 'fran 6/8/2021 23:07:18'!
+
+!SentenceFinderByPrefix methodsFor: 'as yet unclassified' stamp: 'fran 6/9/2021 22:06:53'!
 find: prefix
-	|auxiliarStack arrayOfSentences elementValue|
-	(prefix = '') ifTrue: [^self error: SentenceFinderByPrefix emptyPrefixIsNotValid].
-	(prefix includesSubString: ' ') ifTrue: [^self error: SentenceFinderByPrefix prefixWithBlanckSpaceIsNotValid].
+	|auxiliarStack collectionOfSentences collectionOfElements|
+	self checkPrefixNotValid: prefix.
 	auxiliarStack := OOStack new.
-	arrayOfSentences := OrderedCollection new.
-	1 to: stack size do: [:x | 
-		elementValue := stack pop.
-		(elementValue is: prefix substringAt: 1) ifTrue: [arrayOfSentences add: elementValue ].
-		auxiliarStack push: elementValue.
-		].
-	1 to: auxiliarStack size do: [:x | 
-		elementValue := auxiliarStack pop.
-		stack push: elementValue.
-		].
-	^arrayOfSentences.
+	collectionOfSentences := OrderedCollection new.
+	collectionOfElements := self moveElementsFrom: stack to: auxiliarStack.
+	collectionOfSentences := collectionOfElements select: [:each | each is: prefix substringAt: 1].
+	self moveElementsFrom: auxiliarStack to: stack.
+	^collectionOfSentences.
 	! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
@@ -377,8 +393,13 @@ emptyPrefixIsNotValid
 prefixWithBlanckSpaceIsNotValid
 	^'The prefix can not contain blanck spaces'.! !
 
-!SentenceFinderByPrefix class methodsFor: 'as yet unclassified' stamp: 'fran 6/8/2021 21:46:27'!
+!SentenceFinderByPrefix class methodsFor: 'as yet unclassified' stamp: 'fran 6/9/2021 21:38:20'!
+sentenceFinderByPrefixMustBeInitializedWithAStack
+	^'The SentenceFinderByPrefix must be initialized with a stack'.! !
+
+!SentenceFinderByPrefix class methodsFor: 'as yet unclassified' stamp: 'fran 6/9/2021 21:40:57'!
 with: aStack
+	(aStack isKindOf: OOStack) ifFalse: [^self error: SentenceFinderByPrefix sentenceFinderByPrefixMustBeInitializedWithAStack].
 	^self new InitializeWith: aStack.
 	! !
 
