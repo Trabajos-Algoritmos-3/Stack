@@ -352,9 +352,9 @@ increaseSize.
 	size := size +1.
 	! !
 
-!OOStack methodsFor: 'private' stamp: 'fj 6/6/2021 18:49:23'!
+!OOStack methodsFor: 'private' stamp: 'fran 6/10/2021 17:45:46'!
 reduceSize
-	size := size -1.! !
+	size := size - 1.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -368,11 +368,11 @@ stackEmptyErrorDescription
 	^ 'Stack is empty'! !
 
 
-!OOStack class methodsFor: 'as yet unclassified' stamp: 'fran 6/10/2021 14:13:54'!
+!OOStack class methodsFor: 'instance creation' stamp: 'fran 6/10/2021 14:13:54'!
 new
 	^ UnlimitedOOStack basicNew initialize .! !
 
-!OOStack class methodsFor: 'as yet unclassified' stamp: 'fran 6/10/2021 14:26:40'!
+!OOStack class methodsFor: 'instance creation' stamp: 'fran 6/10/2021 14:26:40'!
 withLimitedSize: aLimitSize
 	^ LimitedOOStack basicNew initialize initializeWith: aLimitSize.! !
 
@@ -404,11 +404,11 @@ push: anElement
 LimitedOOStack class
 	instanceVariableNames: ''!
 
-!LimitedOOStack class methodsFor: 'error' stamp: 'fran 6/10/2021 14:26:05'!
+!LimitedOOStack class methodsFor: 'error descriptions' stamp: 'fran 6/10/2021 14:26:05'!
 limitSizeMustBeGreaterThanZero
 	^'The limit size must be greater or equal to zero'.! !
 
-!LimitedOOStack class methodsFor: 'error' stamp: 'fran 6/10/2021 14:08:24'!
+!LimitedOOStack class methodsFor: 'error descriptions' stamp: 'fran 6/10/2021 14:08:24'!
 limitedSizeReached
 	^'The limit size of the Stack has been reached'! !
 
@@ -476,19 +476,20 @@ find: prefix
 SentenceFinderByPrefix class
 	instanceVariableNames: ''!
 
-!SentenceFinderByPrefix class methodsFor: 'as yet unclassified' stamp: 'fran 6/8/2021 22:59:14'!
+!SentenceFinderByPrefix class methodsFor: 'error descriptions' stamp: 'fran 6/8/2021 22:59:14'!
 emptyPrefixIsNotValid
 	^'The prefix can not be empty'.! !
 
-!SentenceFinderByPrefix class methodsFor: 'as yet unclassified' stamp: 'fran 6/8/2021 23:08:20'!
+!SentenceFinderByPrefix class methodsFor: 'error descriptions' stamp: 'fran 6/8/2021 23:08:20'!
 prefixWithBlanckSpaceIsNotValid
 	^'The prefix can not contain blanck spaces'.! !
 
-!SentenceFinderByPrefix class methodsFor: 'as yet unclassified' stamp: 'fran 6/9/2021 21:38:20'!
+!SentenceFinderByPrefix class methodsFor: 'error descriptions' stamp: 'fran 6/9/2021 21:38:20'!
 sentenceFinderByPrefixMustBeInitializedWithAStack
 	^'The SentenceFinderByPrefix must be initialized with a stack'.! !
 
-!SentenceFinderByPrefix class methodsFor: 'as yet unclassified' stamp: 'fran 6/9/2021 21:40:57'!
+
+!SentenceFinderByPrefix class methodsFor: 'instance creation' stamp: 'fran 6/9/2021 21:40:57'!
 with: aStack
 	(aStack isKindOf: OOStack) ifFalse: [^self error: SentenceFinderByPrefix sentenceFinderByPrefixMustBeInitializedWithAStack].
 	^self new InitializeWith: aStack.
