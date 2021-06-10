@@ -5,7 +5,7 @@ TestCase subclass: #OOStackTest
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!OOStackTest methodsFor: 'test' stamp: 'HernanWilkinson 5/7/2012 11:30'!
+!OOStackTest methodsFor: 'test' stamp: 'fran 6/10/2021 14:00:18'!
 test01StackShouldBeEmptyWhenCreated
 
 	| stack |
@@ -134,6 +134,40 @@ test10CanNotTopWhenThereAreNoObjectsInTheStack
 			self assert: anError messageText = OOStack stackEmptyErrorDescription ]
 		
 ! !
+
+
+!OOStackTest methodsFor: 'extra test' stamp: 'fran 6/10/2021 14:20:28'!
+test11LimitedOOStack
+	|stack|
+	stack := OOStack withLimitedSize: 3.
+	stack push: 'iron man'.
+	stack push: 'captain america'.
+	stack push: 'thanos'.
+	self
+		should: [ stack push: 'esternocleidomastoideo'. ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = LimitedOOStack limitedSizeReached ].! !
+
+!OOStackTest methodsFor: 'extra test' stamp: 'fran 6/10/2021 14:23:02'!
+test12LimitedOOStackWithLimitZero
+	|stack|
+	stack := OOStack withLimitedSize: 0.
+	self
+		should: [ stack push: 'esternocleidomastoideo'. ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = LimitedOOStack limitedSizeReached ].
+	! !
+
+!OOStackTest methodsFor: 'extra test' stamp: 'fran 6/10/2021 14:28:33'!
+test13LimitedOOStackCanNotHaveNegativeLimitedSize
+	self
+		should: [ OOStack withLimitedSize: -1 ]
+		raise: Error - MessageNotUnderstood 
+		withExceptionDo: [ :anError |
+			self assert: anError messageText = LimitedOOStack limitSizeMustBeGreaterThanZero ].
+	! !
 
 
 !classDefinition: #SentenceFinderByPrefixTest category: 'Stack-Exercise'!
@@ -279,7 +313,7 @@ Object subclass: #OOStack
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!OOStack methodsFor: 'stack management' stamp: 'fran 6/7/2021 19:51:51'!
+!OOStack methodsFor: 'stack management' stamp: 'fran 6/10/2021 14:11:45'!
 pop
 	| topElementValue nextTopElement |
 	topElementValue := elementOnTop value.
@@ -288,12 +322,9 @@ pop
 	self reduceSize .
 	^topElementValue .! !
 
-!OOStack methodsFor: 'stack management' stamp: 'fj 6/6/2021 18:49:41'!
+!OOStack methodsFor: 'stack management' stamp: 'fran 6/10/2021 14:10:23'!
 push: anElement
-	|newTopElement|
-	newTopElement := StackElement with: anElement followedBy: elementOnTop.
-	elementOnTop := newTopElement .
-	self increaseSize .
+	self subclassResponsibility.
 	! !
 
 
@@ -335,6 +366,66 @@ OOStack class
 stackEmptyErrorDescription
 	
 	^ 'Stack is empty'! !
+
+
+!OOStack class methodsFor: 'as yet unclassified' stamp: 'fran 6/10/2021 14:13:54'!
+new
+	^ UnlimitedOOStack basicNew initialize .! !
+
+!OOStack class methodsFor: 'as yet unclassified' stamp: 'fran 6/10/2021 14:26:40'!
+withLimitedSize: aLimitSize
+	^ LimitedOOStack basicNew initialize initializeWith: aLimitSize.! !
+
+
+!classDefinition: #LimitedOOStack category: 'Stack-Exercise'!
+OOStack subclass: #LimitedOOStack
+	instanceVariableNames: 'limitSize'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Stack-Exercise'!
+
+!LimitedOOStack methodsFor: 'initialization' stamp: 'fran 6/10/2021 14:27:14'!
+initializeWith: aLimitSize
+	(aLimitSize < 0) ifTrue: [self error: LimitedOOStack limitSizeMustBeGreaterThanZero].
+	limitSize := aLimitSize.! !
+
+
+!LimitedOOStack methodsFor: 'stack management' stamp: 'fran 6/10/2021 14:08:51'!
+push: anElement
+	|newTopElement|
+	(limitSize = size) ifTrue: [^self error: LimitedOOStack limitedSizeReached].
+	newTopElement := StackElement with: anElement followedBy: elementOnTop.
+	elementOnTop := newTopElement .
+	self increaseSize .! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'LimitedOOStack class' category: 'Stack-Exercise'!
+LimitedOOStack class
+	instanceVariableNames: ''!
+
+!LimitedOOStack class methodsFor: 'error' stamp: 'fran 6/10/2021 14:26:05'!
+limitSizeMustBeGreaterThanZero
+	^'The limit size must be greater or equal to zero'.! !
+
+!LimitedOOStack class methodsFor: 'error' stamp: 'fran 6/10/2021 14:08:24'!
+limitedSizeReached
+	^'The limit size of the Stack has been reached'! !
+
+
+!classDefinition: #UnlimitedOOStack category: 'Stack-Exercise'!
+OOStack subclass: #UnlimitedOOStack
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Stack-Exercise'!
+
+!UnlimitedOOStack methodsFor: 'stack management' stamp: 'fran 6/10/2021 14:10:11'!
+push: anElement
+	|newTopElement|
+	newTopElement := StackElement with: anElement followedBy: elementOnTop.
+	elementOnTop := newTopElement .
+	self increaseSize .! !
 
 
 !classDefinition: #SentenceFinderByPrefix category: 'Stack-Exercise'!
